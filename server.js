@@ -27,11 +27,24 @@ io.on('connection', (socket) => {
   socket.join(boardId);
 
   socket.on('draw', (data) => {
-    socket.to(data.boardId).emit('draw', data);
+    socket.to(boardId).emit('draw', data);
   });
 
   socket.on('clear', (data) => {
-    socket.to(data.boardId).emit('clear', data);
+    socket.to(boardId).emit('clear', data);
+  });
+
+  // NEW: text events
+  socket.on('text_create', (data) => {
+    socket.to(boardId).emit('text_create', data);
+  });
+
+  socket.on('text_update', (data) => {
+    socket.to(boardId).emit('text_update', data);
+  });
+
+  socket.on('text_move', (data) => {
+    socket.to(boardId).emit('text_move', data);
   });
 
   socket.on('disconnect', () => {
