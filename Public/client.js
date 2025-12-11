@@ -21,6 +21,7 @@ const boardContainer = document.getElementById('board-container');
 const boardLabel = document.getElementById('board-id');
 const copyLinkBtn = document.getElementById('copy-link-btn');
 const boardUrl = `${window.location.origin}/${boardId}`;
+const TEXT_BOX_PLACEHOLDER = 'Click to add text';
 if (boardLabel) {
   boardLabel.textContent = `Board ID: ${boardId}`;
   boardLabel.title = boardUrl;
@@ -45,6 +46,11 @@ let lastX = 0;
 let lastY = 0;
 const strokes = [];
 const textBoxes = [];
+
+function updateTextBoxEmptyState(el) {
+  const hasContent = el.innerText.trim().length > 0;
+  el.dataset.empty = hasContent ? 'false' : 'true';
+}
 
 // Resize canvas to fill the viewport
 function resizeCanvas() {
@@ -161,15 +167,18 @@ function createLocalTextBox({ id, x, y, content }) {
   el.className = 'text-box';
   el.contentEditable = 'true';
   el.dataset.id = id;
+  el.dataset.placeholder = TEXT_BOX_PLACEHOLDER;
   el.style.left = `${x}px`;
   el.style.top = `${y}px`;
   el.innerText = content;
+  updateTextBoxEmptyState(el);
 
   // When user types, sync content
   el.addEventListener('input', () => {
     const newContent = el.innerText;
     if (!textBoxes[id]) return;
     textBoxes[id].content = newContent;
+    updateTextBoxEmptyState(el);
 
     socket.emit('text_update', {
       boardId,
@@ -229,7 +238,7 @@ addTextBtn.addEventListener('click', () => {
   const y = rect.height / 2 - 20;
 
   const id = `text-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
-  const content = 'New text';
+  const content = '';
 
   textBoxes[id] = { id, x, y, content };
 
@@ -279,6 +288,7 @@ socket.on('text_update', (data) => {
   if (el && el !== document.activeElement) {
     // Avoid fighting the user's caret if they're typing
     el.innerText = data.content;
+    updateTextBoxEmptyState(el);
   }
 });
 

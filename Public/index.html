@@ -103,6 +103,11 @@
       outline: none;
       white-space: pre-wrap;
     }
+    .text-box[data-empty="true"]::before {
+      content: attr(data-placeholder);
+      color: #888;
+      pointer-events: none;
+    }
     .text-box:focus{ 
         border-color: #0078d4;
         box-shadow: 0 0 0 1px #0078d4;

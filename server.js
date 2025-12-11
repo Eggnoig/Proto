@@ -7,8 +7,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'Public')));
+// Serve static files from the "public" directory (disable default index so "/" can show landing)
+app.use(express.static(path.join(__dirname, 'Public'), { index: false }));
 
 const docStore = new Map(); // in-memory store for document content
 
