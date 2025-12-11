@@ -286,6 +286,14 @@ function drawLine(x0, y0, x1, y1, color, width) {
 function clearBoard() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   strokes.length = 0; //drops saved strokes
+  const boxes = document.querySelectorAll('.text-box');
+  boxes.forEach(box => box.remove());
+    for (const key in textBoxes) {
+        if (Object.prototype.hasOwnProperty.call(textBoxes, key)) {
+            delete textBoxes[key];
+        }
+    }
+
 }
 
 function getMousePos(e) {
