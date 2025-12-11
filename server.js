@@ -27,28 +27,33 @@ app.get('/health', (req, res) => {
 io.on('connection', (socket) => {
   console.log('New client connected:', socket.id);
 
-  const boardId = 'default-board';
+  const rawBoardId = socket.handshake.query.boardId;
+  const boardId = typeof rawBoardId === 'string' && rawBoardId.trim()
+    ? rawBoardId.trim()
+    : 'default-board';
   socket.join(boardId);
+  socket.data.boardId = boardId;
+  console.log(`Client ${socket.id} joined board ${boardId}`);
 
   socket.on('draw', (data) => {
-    socket.to(boardId).emit('draw', data);
+    socket.to(socket.data.boardId).emit('draw', data);
   });
 
   socket.on('clear', (data) => {
-    socket.to(boardId).emit('clear', data);
+    socket.to(socket.data.boardId).emit('clear', data);
   });
 
   // NEW: text events
   socket.on('text_create', (data) => {
-    socket.to(boardId).emit('text_create', data);
+    socket.to(socket.data.boardId).emit('text_create', data);
   });
 
   socket.on('text_update', (data) => {
-    socket.to(boardId).emit('text_update', data);
+    socket.to(socket.data.boardId).emit('text_update', data);
   });
 
   socket.on('text_move', (data) => {
-    socket.to(boardId).emit('text_move', data);
+    socket.to(socket.data.boardId).emit('text_move', data);
   });
 
   socket.on('disconnect', () => {

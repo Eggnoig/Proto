@@ -56,9 +56,24 @@
       background: #4a4a4a;
     }
 
+    .board-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     #board-id {
-      opacity: 0.7;
+      opacity: 0.8;
       font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #555;
+      background: #1a1a1a;
+    }
+
+    #copy-link-btn {
+      font-size: 12px;
+      padding: 4px 6px;
     }
     #board-container {
       position: relative;
@@ -108,7 +123,10 @@
       <button id="clear-btn">Clear Board</button>
       <button id="add-text-btn">Add Text Box</button>
     </div>
-    <div id="board-id">Board: default-board</div>
+    <div class="board-meta">
+      <div id="board-id">Board: default-board</div>
+      <button id="copy-link-btn" type="button">Copy board link</button>
+    </div>
   </header>
 
   <div id="board-container">

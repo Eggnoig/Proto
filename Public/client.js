@@ -1,6 +1,15 @@
-const socket = io(); // connects to same origin by default
-
-const boardId = 'default-board'; // later: dynamic from URL, user, etc, static for now
+const pathSegments = window.location.pathname.split('/').filter(Boolean);
+let boardId = pathSegments[0];
+if (!boardId) {
+  boardId = Math.random().toString(36).substring(2, 8);
+  const newPath = `/${boardId}`;
+  if (window.location.pathname !== newPath) {
+    window.history.replaceState(null, '', newPath);
+  }
+}
+const socket = io({
+  query: { boardId }
+}); // connects to same origin by default and tells the server which board we want
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
 
@@ -10,8 +19,25 @@ const clearBtn = document.getElementById('clear-btn');
 const addTextBtn = document.getElementById('add-text-btn');
 const boardContainer = document.getElementById('board-container');
 const boardLabel = document.getElementById('board-id');
+const copyLinkBtn = document.getElementById('copy-link-btn');
+const boardUrl = `${window.location.origin}/${boardId}`;
 if (boardLabel) {
-  boardLabel.textContent = `Board: ${boardId}`;
+  boardLabel.textContent = `Board ID: ${boardId}`;
+  boardLabel.title = boardUrl;
+}
+if (copyLinkBtn) {
+  copyLinkBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(boardUrl);
+      const original = copyLinkBtn.textContent;
+      copyLinkBtn.textContent = 'Link copied!';
+      setTimeout(() => {
+        copyLinkBtn.textContent = original;
+      }, 1600);
+    } catch (err) {
+      console.error('Failed to copy link', err);
+    }
+  });
 }
 
 let drawing = false;
