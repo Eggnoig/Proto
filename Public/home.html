@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Proto | Collaborate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d1117;
+      --panel: #161b22;
+      --accent: #4f46e5;
+      --accent-strong: #7c3aed;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, rgba(79,70,229,0.25), transparent 55%) var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    main {
+      width: min(960px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .hero {
+      text-align: center;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+    .hero p {
+      margin: 12px auto 0;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 10px 40px rgba(15,23,42,0.45);
+    }
+    .card h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      flex: 1;
+      font-size: 0.95rem;
+    }
+    .card button {
+      background: var(--accent);
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .card button:hover {
+      background: var(--accent-strong);
+      transform: translateY(-1px);
+    }
+    .card.secondary button {
+      background: transparent;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+    .card.secondary button:hover {
+      background: rgba(148, 163, 184, 0.1);
+    }
+    .open-existing {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px dashed rgba(148, 163, 184, 0.4);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .open-existing input {
+      flex: 1;
+      min-width: 220px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 12px 16px;
+      background: transparent;
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .open-existing select {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 12px 16px;
+      background: transparent;
+      color: var(--text);
+    }
+    .open-existing button {
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 18px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    @media (max-width: 600px) {
+      .open-existing {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .open-existing select,
+      .open-existing input,
+      .open-existing button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <h1>Start collaborating in seconds</h1>
+      <p>Create a fresh whiteboard for rapid sketches or spin up a shared document for longer-form notes. Everything lives behind a shareable link.</p>
+    </section>
+
+    <section class="choices">
+      <article class="card">
+        <div>
+          <p style="text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; font-size: 0.75rem; margin-bottom: 6px;">Whiteboard</p>
+          <h2>Visual board</h2>
+        </div>
+        <p>Perfect for sketches, flows, and brainstorming with freehand drawing and movable text boxes.</p>
+        <button id="new-board-btn" type="button">Create new board</button>
+      </article>
+
+      <article class="card secondary">
+        <div>
+          <p style="text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; font-size: 0.75rem; margin-bottom: 6px;">Document</p>
+          <h2>Shared doc</h2>
+        </div>
+        <p>Capture meeting notes or longer thoughts in a focused, distraction-free collaborative document.</p>
+        <button id="new-doc-btn" type="button">Create new document</button>
+      </article>
+    </section>
+
+    <section class="open-existing">
+      <select id="resource-type">
+        <option value="board">Board</option>
+        <option value="doc">Document</option>
+      </select>
+      <input type="text" id="existing-id" placeholder="Enter existing ID" autocomplete="off">
+      <button id="open-btn" type="button">Open</button>
+    </section>
+
+    <footer>&copy; Proto. Built for teams that think visually.</footer>
+  </main>
+
+  <script src="/home.js"></script>
+</body>
+</html>

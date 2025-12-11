@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Proto | Document</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 16px 24px;
+      background: #020617;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .doc-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .doc-meta span {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .doc-meta small {
+      color: #94a3b8;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    button {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: transparent;
+      color: inherit;
+      padding: 8px 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      border-color: #818cf8;
+      color: #c7d2fe;
+    }
+    #sync-status {
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    main {
+      flex: 1;
+      display: flex;
+    }
+    textarea {
+      width: 100%;
+      flex: 1;
+      border: none;
+      outline: none;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 32px;
+      font-size: 1rem;
+      line-height: 1.7;
+      font-family: 'Source Code Pro', 'SFMono-Regular', Menlo, Consolas, monospace;
+      resize: none;
+    }
+    textarea::placeholder {
+      color: rgba(148, 163, 184, 0.6);
+    }
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      textarea {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="doc-meta">
+      <span id="doc-label">Document</span>
+      <small id="doc-hint">Loading…</small>
+    </div>
+    <div class="actions">
+      <span id="sync-status">Connecting…</span>
+      <button id="copy-doc-link" type="button">Copy share link</button>
+      <button id="back-home" type="button">Back to landing</button>
+    </div>
+  </header>
+  <main>
+    <textarea id="doc-editor" placeholder="Start jotting down ideas…"></textarea>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/document.js"></script>
+</body>
+</html>
