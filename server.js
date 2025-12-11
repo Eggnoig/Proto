@@ -11,8 +11,12 @@ const io = new Server(server);
 app.use(express.static(path.join(__dirname, 'Public')));
 
 // Explicit route for "/"
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Public', 'index.html'));
+app.get("/:boardId", (req, res) => {
+    res.sendFile(path.join(__dirname, "Public", "index.html"));
+});
+app.get("/", (req, res) => {
+    const id = Math.random().toString(36).substring(2, 8);
+    res.redirect(`/${id}`);
 });
 
 // Simple health check
